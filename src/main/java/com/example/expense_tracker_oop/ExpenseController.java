@@ -2,6 +2,7 @@ package com.example.expense_tracker_oop;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.io.IOException;
@@ -17,10 +18,10 @@ public class ExpenseController {
     private ChoiceBox typeChoiceBox;
     @FXML
     private ChoiceBox currencyChoiceBox;
-//    @FXML
-//    private TextField txtFieldAmount;
-//    @FXML
-//    private DatePicker dateDatePicker;
+    @FXML
+    private TextField txtFieldAmount;
+    @FXML
+    private DatePicker dateDatePicker;
     @FXML
     private Label labelWelcomeUser;
     @FXML
@@ -87,6 +88,53 @@ public class ExpenseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    private void onAddButtonClicked(ActionEvent event) {
+        try {
+            // Get inputs from UI elements
+            String categoryName = (String) categoryChoiceBox.getValue();
+            String transactionType = (String) typeChoiceBox.getValue();
+            String currencyName = (String) currencyChoiceBox.getValue();
+
+            // Validate inputs
+            if (categoryName == null || transactionType == null || currencyName == null ||
+                    txtFieldAmount.getText().isEmpty() || dateDatePicker.getValue() == null) {
+                showAlert("Error", "Please fill in all the required fields.");
+                return;
+            }
+
+            double amount = Double.parseDouble(txtFieldAmount.getText());
+            LocalDate transactionDate = dateDatePicker.getValue();
+
+            // Create a Transaction object
+            Transaction transaction = new Transaction(categoryName, transactionType, currencyName, amount, transactionDate);
+
+            // Add the transaction to the database
+            TransactionDAO.addTransaction(transaction);
+
+            // Optionally, you can clear the input fields or update the UI as needed
+            clearInputFields();
+
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid amount. Please enter a valid number.");
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+            showAlert("Error", "Error adding the transaction to the database.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        // Implement your showAlert method here (similar to what you've done in your previous controllers)
+    }
+
+    private void clearInputFields() {
+        // Clear the input fields if needed
+        categoryChoiceBox.setValue(null);
+        typeChoiceBox.setValue(null);
+        currencyChoiceBox.setValue(null);
+        txtFieldAmount.clear();
+        dateDatePicker.setValue(null);
     }
 
 }

@@ -109,7 +109,7 @@
                         <ChoiceBox fx:id="currencyChoiceBox" prefWidth="150.0" style="-fx-background-color: #ffffff; -fx-cursor: hand;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
-                  <Button fx:id="btnAddToList" layoutX="44.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #ffffff; -fx-text-fill: #006478; -fx-cursor: hand;" text="Add to the list">
+                  <Button fx:id="btnAddToList" layoutX="44.0" layoutY="230.0" mnemonicParsing="false" onAction="#onAddButtonClicked" prefHeight="25.0" prefWidth="114.0" style="-fx-background-color: #ffffff; -fx-text-fill: #006478; -fx-cursor: hand;" text="Add to the list">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
